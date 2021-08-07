@@ -4,7 +4,7 @@
     </a>
     <h1>EpicReplant - Spigot Plugin</h1>
     <p></p>
-    <a href="">Download</a>
+    <a href="https://www.spigotmc.org/resources/epicreplant.95096/">Download</a>
     ·
     <a href="https://github.com/Markiesch/EpicReplant/issues">Report Bug</a>
     ·
