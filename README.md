@@ -13,4 +13,5 @@
 <br />
 <br />
 <br />
-
+![Landing page](https://github.com/Markiesch/EpicReplant/blob/main/assets/EpicFarmingGif.gif?raw=true "Epic Replant")
+![Landing page](https://github.com/Markiesch/EpicReplant/blob/main/assets/EpicFarmingGif2.gif?raw=true "Epic Replant")
