@@ -9,9 +9,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.plugin.Plugin;
 
 public class CropTrample implements Listener {
-    private static final EpicReplant plugin = EpicReplant.getPlugin(EpicReplant.class);
+    private final Plugin plugin = EpicReplant.getInstance();
 
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerInteractEvent(PlayerInteractEvent e) {

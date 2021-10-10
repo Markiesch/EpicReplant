@@ -1,5 +1,5 @@
 CropBreak:
-  # Disables/enables the replant system (a full server restart is needed to apply changes)
+  # Disables/enables the whole replant system (a full server restart is needed to apply changes)
   enabled: true
   requiredItems:
     - 'WOODEN_HOE'

@@ -5,9 +5,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 public class ReplantCommand implements CommandExecutor {
-    private static final EpicReplant plugin = EpicReplant.getPlugin(EpicReplant.class);
+    private final Plugin plugin = EpicReplant.getInstance();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="EpicPunishments:jar">
-    <output-path>$PROJECT_DIR$/../Server/plugins</output-path>
-    <root id="archive" name="EpicReplant.jar">
-      <element id="module-output" name="EpicReplant" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/plugin.yml" />
-    </root>
-  </artifact>
-</component>

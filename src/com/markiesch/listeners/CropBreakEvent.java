@@ -15,12 +15,14 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 public class CropBreakEvent implements Listener {
-    private static final EpicReplant plugin = EpicReplant.getPlugin(EpicReplant.class);
+    private final Plugin plugin = EpicReplant.getInstance();
 
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void breakEvent(BlockBreakEvent e) {
@@ -39,8 +41,6 @@ public class CropBreakEvent implements Listener {
 
         Block block = e.getBlock();
         Material material = block.getType();
-        Location location = block.getLocation();
-        World world = e.getPlayer().getWorld();
         Material cropBlockType = null;
         Material seedVariant = null;
 
@@ -63,6 +63,8 @@ public class CropBreakEvent implements Listener {
         if (cropBlockType == null) return;
         if (seedVariant == null) seedVariant = cropBlockType;
 
+        World world = e.getPlayer().getWorld();
+
         e.setDropItems(false);
         Iterator<ItemStack> iterator = e.getBlock().getDrops().iterator();
         boolean removedAItem = false;
@@ -77,12 +79,12 @@ public class CropBreakEvent implements Listener {
             world.dropItemNaturally(e.getBlock().getLocation(), item);
         }
 
-
+        Location location = block.getLocation();
         Material finalCropBlockType = cropBlockType;
         Material finalSeedVariant = seedVariant;
         Bukkit.getScheduler().runTaskLater(EpicReplant.getInstance(),() -> {
             Location baseBlock = new Location(location.getWorld(), location.getBlockX(), location.getBlockY() - 1, location.getBlockZ());
-            // Returns if the block under the crop is not an farmland
+            // Returns if the block under the crop is not a farmland
             if (baseBlock.getBlock().getType() != Material.FARMLAND && baseBlock.getBlock().getType() != Material.SOUL_SAND) {
                 world.dropItemNaturally(e.getBlock().getLocation(), new ItemStack(finalSeedVariant));
                 return;
@@ -98,31 +100,23 @@ public class CropBreakEvent implements Listener {
                 } catch (IllegalArgumentException error) {
                     plugin.getServer().getConsoleSender().sendMessage("\"" + plugin.getConfig().getString("CropBreak.particle") + "\" is not a valid particle");
                 }
-
-
             }
-
         }, 15L);
     }
 
-    public static boolean checkTools(List<String> arr, String value) {
-        for (String element : arr) {
-            if (element.equals(value)) {
-                return true;
-            }
-        }
+    public boolean checkTools(List<String> arr, String value) {
+        for (String element : arr)
+            if (element.equals(value)) return true;
         return false;
     }
 
-    public static boolean checkEnchants(List<String> arr, ItemStack item) {
-        if (arr.size() == 0) return true;
+    public boolean checkEnchants(List<String> arr, ItemStack item) {
+        if (arr.isEmpty()) return true;
         boolean requireAllEnchants = plugin.getConfig().getBoolean("CropBreak.requireAllEnchants");
-        int length = arr.size();
         int count = 0;
 
-
         for (String element : arr) {
-            Enchantment name = Enchantment.getByKey(NamespacedKey.minecraft(element.toLowerCase()));
+            Enchantment name = Enchantment.getByKey(NamespacedKey.minecraft(element.toLowerCase(Locale.US)));
             if (name != null && item.containsEnchantment(name)) {
                 if (!requireAllEnchants) {
                     return true;
@@ -131,6 +125,6 @@ public class CropBreakEvent implements Listener {
                 }
             }
         }
-        return count == length;
+        return count == arr.size();
     }
 }

@@ -18,22 +18,21 @@ public class EpicReplant extends JavaPlugin implements Listener {
         instance = this;
         saveDefaultConfig();
         // Register commands and Listeners
-        if (getConfig().getBoolean("CropBreak.enabled")) {
+        if (getConfig().getBoolean("CropBreak.enabled"))
             getServer().getPluginManager().registerEvents(new CropBreakEvent(), this);
-        }
-        if (getConfig().getBoolean("preventCropTrampling")) {
+
+        if (getConfig().getBoolean("preventCropTrampling"))
             getServer().getPluginManager().registerEvents(new CropTrample(), this);
-        }
+
         Objects.requireNonNull(getCommand("epicReplant")).setExecutor(new ReplantCommand());
         // Send a console message when the plugin is Enabled
-        getServer().getConsoleSender().sendMessage(changeColor("&aEpicPunishments is now enabled"));
+        getServer().getConsoleSender().sendMessage(changeColor("&aEpicReplant is now enabled"));
         getServer().getPluginManager().registerEvents(this, this);
     }
 
     @Override
     public void onDisable() {
-        // Send a console message when the plugin is Disabled
-        getServer().getConsoleSender().sendMessage(changeColor("&aEpicPunishments is now disabled"));
+        getServer().getConsoleSender().sendMessage(changeColor("&cEpicReplant is now disabled"));
     }
 
     public static Plugin getInstance() { return instance; }
