@@ -4,11 +4,10 @@ import com.markiesch.commands.ReplantCommand;
 import com.markiesch.listeners.CropBreakEvent;
 import com.markiesch.listeners.CropTrample;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class EpicReplant extends JavaPlugin implements Listener {
+public class EpicReplant extends JavaPlugin {
     public static Plugin instance;
 
     @Override
