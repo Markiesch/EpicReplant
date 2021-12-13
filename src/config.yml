@@ -1,25 +1,30 @@
 CropBreak:
   # Disables/enables the whole replant system (a full server restart is needed to apply changes)
   enabled: true
+  # When true players need the permission epicreplant.replant
+  requirePermission: true
   requiredItems:
-    - 'WOODEN_HOE'
-    - 'STONE_HOE'
-    - 'GOLDEN_HOE'
-    - 'IRON_HOE'
-    - 'DIAMOND_HOE'
-    - 'NETHERITE_HOE'
+    - "WOODEN_HOE"
+    - "STONE_HOE"
+    - "GOLDEN_HOE"
+    - "IRON_HOE"
+    - "DIAMOND_HOE"
+    - "NETHERITE_HOE"
   # True will check if the used tool has the specified enchantments, false will ignore this check
   requireEnchants: false
   # When true all enchants must be on the item to successfully replant the crop, when false only one enchant needs to be present on the item
   requireAllEnchants: false
   requiredEnchants:
-    - 'SILK_TOUCH'
+    - "SILK_TOUCH"
   # The name of the particle that spawns when a crop is replanted
-  particle: 'VILLAGER_HAPPY'
+  particle: "VILLAGER_HAPPY"
   # The amount of particles that spawn when a crop is replanted (use 0 to disable the spawn of particles)
   particleAmount: 10
 
-# Disables/enables the crop trampling system (a full server restart is needed to apply changes)
-preventCropTrampling: true
-# Disables/enables the need of boots to make the antiCropTrampling work
-requireBoots: true
+CropTrampling:
+  # Disables/enables the crop trampling system (a full server restart is needed to apply changes)
+  enabled: true
+  # When true players need the permission epicreplant.trampling
+  requirePermission: true
+  # Disables/enables the need of leather boots to make the antiCropTrampling work
+  requireBoots: true
