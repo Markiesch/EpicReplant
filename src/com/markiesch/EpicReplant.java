@@ -3,12 +3,10 @@ package com.markiesch;
 import com.markiesch.commands.ReplantCommand;
 import com.markiesch.listeners.CropBreakEvent;
 import com.markiesch.listeners.CropTrample;
-import org.bukkit.ChatColor;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.Objects;
 
 public class EpicReplant extends JavaPlugin implements Listener {
     public static Plugin instance;
@@ -21,20 +19,18 @@ public class EpicReplant extends JavaPlugin implements Listener {
         if (getConfig().getBoolean("CropBreak.enabled"))
             getServer().getPluginManager().registerEvents(new CropBreakEvent(), this);
 
-        if (getConfig().getBoolean("preventCropTrampling"))
+        if (getConfig().getBoolean("CropTrampling.enabled"))
             getServer().getPluginManager().registerEvents(new CropTrample(), this);
 
-        Objects.requireNonNull(getCommand("epicReplant")).setExecutor(new ReplantCommand());
+        PluginCommand command = getCommand("epicReplant");
+        if (command != null) command.setExecutor(new ReplantCommand());
         // Send a console message when the plugin is Enabled
-        getServer().getConsoleSender().sendMessage(changeColor("&aEpicReplant is now enabled"));
+        getServer().getConsoleSender().sendMessage("§aEpic Replant is now enabled");
         getServer().getPluginManager().registerEvents(this, this);
     }
 
     @Override
     public void onDisable() {
-        getServer().getConsoleSender().sendMessage(changeColor("&cEpicReplant is now disabled"));
+        getServer().getConsoleSender().sendMessage("§cEpic Replant is now disabled");
     }
-
-    public static Plugin getInstance() { return instance; }
-    public static String changeColor(String s) { return ChatColor.translateAlternateColorCodes('&', s); }
 }
