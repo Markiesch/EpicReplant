@@ -26,7 +26,6 @@ public class EpicReplant extends JavaPlugin implements Listener {
         if (command != null) command.setExecutor(new ReplantCommand());
         // Send a console message when the plugin is Enabled
         getServer().getConsoleSender().sendMessage("§aEpic Replant is now enabled");
-        getServer().getPluginManager().registerEvents(this, this);
     }
 
     @Override
