@@ -22,14 +22,13 @@ import java.util.List;
 import java.util.Locale;
 
 public class CropBreakEvent implements Listener {
-    private final Plugin plugin = EpicReplant.getInstance();
+    private final Plugin plugin = EpicReplant.instance;
 
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void breakEvent(BlockBreakEvent e) {
-        Player player = e.getPlayer();
-        if (!player.hasPermission("epicreplant.replant")) return;
+    public void breakEvent(BlockBreakEvent event) {
+        Player player = event.getPlayer();
+        if (plugin.getConfig().getBoolean("CropBreak.requirePermission") && !player.hasPermission("epicreplant.replant")) return;
 
-        // Check if held item meets requirements
         List<String> requiredItems = plugin.getConfig().getStringList("CropBreak.requiredItems");
         ItemStack heldItem = player.getInventory().getItemInMainHand();
         if (!checkTools(requiredItems, heldItem.getType().toString())) return;
@@ -39,7 +38,7 @@ public class CropBreakEvent implements Listener {
             if (!checkEnchants(requiredEnchants, heldItem)) return;
         }
 
-        Block block = e.getBlock();
+        Block block = event.getBlock();
         Material material = block.getType();
         Material cropBlockType = null;
         Material seedVariant = null;
@@ -63,10 +62,10 @@ public class CropBreakEvent implements Listener {
         if (cropBlockType == null) return;
         if (seedVariant == null) seedVariant = cropBlockType;
 
-        World world = e.getPlayer().getWorld();
+        World world = event.getPlayer().getWorld();
 
-        e.setDropItems(false);
-        Iterator<ItemStack> iterator = e.getBlock().getDrops().iterator();
+        event.setDropItems(false);
+        Iterator<ItemStack> iterator = event.getBlock().getDrops().iterator();
         boolean removedAItem = false;
         while(iterator.hasNext()) {
             ItemStack item = iterator.next();
@@ -76,17 +75,17 @@ public class CropBreakEvent implements Listener {
                 removedAItem = true;
             }
             if (item.getAmount() < 1) continue;
-            world.dropItemNaturally(e.getBlock().getLocation(), item);
+            world.dropItemNaturally(event.getBlock().getLocation(), item);
         }
 
         Location location = block.getLocation();
         Material finalCropBlockType = cropBlockType;
         Material finalSeedVariant = seedVariant;
-        Bukkit.getScheduler().runTaskLater(EpicReplant.getInstance(),() -> {
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
             Location baseBlock = new Location(location.getWorld(), location.getBlockX(), location.getBlockY() - 1, location.getBlockZ());
             // Returns if the block under the crop is not a farmland
             if (baseBlock.getBlock().getType() != Material.FARMLAND && baseBlock.getBlock().getType() != Material.SOUL_SAND) {
-                world.dropItemNaturally(e.getBlock().getLocation(), new ItemStack(finalSeedVariant));
+                world.dropItemNaturally(event.getBlock().getLocation(), new ItemStack(finalSeedVariant));
                 return;
             }
             location.getBlock().setType(finalCropBlockType);
@@ -94,9 +93,7 @@ public class CropBreakEvent implements Listener {
                 try {
                     Particle particle = Particle.valueOf(plugin.getConfig().getString("CropBreak.particle"));
                     int amount = plugin.getConfig().getInt("CropBreak.particleAmount");
-                    if (amount > 0) {
-                        location.getWorld().spawnParticle(particle, location.add(0.5, 0.25, 0.5), amount, 0.25, 0.10, 0.25);
-                    }
+                    if (amount > 0) location.getWorld().spawnParticle(particle, location.add(0.5, 0.25, 0.5), amount, 0.25, 0.10, 0.25);
                 } catch (IllegalArgumentException error) {
                     plugin.getServer().getConsoleSender().sendMessage("\"" + plugin.getConfig().getString("CropBreak.particle") + "\" is not a valid particle");
                 }
@@ -105,8 +102,7 @@ public class CropBreakEvent implements Listener {
     }
 
     public boolean checkTools(List<String> arr, String value) {
-        for (String element : arr)
-            if (element.equals(value)) return true;
+        for (String element : arr) if (element.equals(value)) return true;
         return false;
     }
 
@@ -118,11 +114,8 @@ public class CropBreakEvent implements Listener {
         for (String element : arr) {
             Enchantment name = Enchantment.getByKey(NamespacedKey.minecraft(element.toLowerCase(Locale.US)));
             if (name != null && item.containsEnchantment(name)) {
-                if (!requireAllEnchants) {
-                    return true;
-                } else {
-                    count++;
-                }
+                if (!requireAllEnchants) return true;
+                count++;
             }
         }
         return count == arr.size();
