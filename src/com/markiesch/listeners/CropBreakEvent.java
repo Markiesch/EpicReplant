@@ -102,6 +102,7 @@ public class CropBreakEvent implements Listener {
     }
 
     public boolean checkTools(List<String> arr, String value) {
+        if (arr.isEmpty()) return true;
         for (String element : arr) if (element.equals(value)) return true;
         return false;
     }
