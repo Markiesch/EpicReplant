@@ -21,8 +21,7 @@ public class ReplantCommand implements CommandExecutor {
             return true;
         }
 
-
-        if (args[0].equalsIgnoreCase("reload")) {
+        if ("reload".equalsIgnoreCase(args[0])) {
             if (!sender.hasPermission("epicreplant.reload")) {
                 sender.sendMessage("§7You do not have§c permissions §7to run this command!");
                 return true;
@@ -35,7 +34,6 @@ public class ReplantCommand implements CommandExecutor {
             } catch (Exception error) {
                 sender.sendMessage("§cFailed to load config file! Check spelling!" + error.getMessage());
             }
-            return true;
         }
         return true;
     }
