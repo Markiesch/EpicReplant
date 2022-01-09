@@ -1,0 +1,10 @@
+name: EpicReplant
+version: '${project.version}'
+main: com.markiesch.EpicReplant
+api-version: 1.13
+author: Markiesch
+description: A lightweight auto replanting plugin.
+
+commands:
+  epicreplant:
+    description: Main command to show help commands
