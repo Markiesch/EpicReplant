@@ -3,6 +3,9 @@ CropBreak:
   enabled: true
   # When true players need the permission epicreplant.replant
   requirePermission: true
+  disabledWorlds:
+    - "disabled world"
+    - "another disabled world"
   # Use '[]' or '-' to allow any item
   requiredItems:
     - "WOODEN_HOE"

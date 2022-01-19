@@ -39,6 +39,9 @@ public class CropBreak implements Listener {
         }
 
         Block block = event.getBlock();
+        List<String> disabledWorlds = plugin.getConfig().getStringList("CropBreak.disabledWorlds");
+        if (disabledWorlds.contains(block.getWorld().getName())) return;
+
         Material material = block.getType();
         Material cropBlockType = null;
         Material seedVariant = null;
