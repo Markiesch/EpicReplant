@@ -3,6 +3,7 @@ CropBreak:
   enabled: true
   # When true players need the permission epicreplant.replant
   requirePermission: true
+  # Use '[]' or '-' to allow replanting in any world
   disabledWorlds:
     - "disabled world"
     - "another disabled world"
@@ -30,5 +31,7 @@ CropTrampling:
   enabled: true
   # When true players need the permission epicreplant.trampling
   requirePermission: true
+  # Use '[]' or '-' to allow replanting in any world
+  disabledWorlds: []
   # Disables/enables the need of leather boots to make the antiCropTrampling work
   requireBoots: true
