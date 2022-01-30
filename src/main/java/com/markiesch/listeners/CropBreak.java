@@ -68,17 +68,19 @@ public class CropBreak implements Listener {
         World world = event.getPlayer().getWorld();
 
         event.setDropItems(false);
-        Iterator<ItemStack> iterator = event.getBlock().getDrops().iterator();
-        boolean removedAItem = false;
-        while(iterator.hasNext()) {
-            ItemStack item = iterator.next();
-            if (item.getType().equals(Material.AIR)) continue;
-            if (!removedAItem && item.getType().equals(seedVariant)) {
-                item.setAmount(item.getAmount() - 1);
-                removedAItem = true;
+        if (!player.getGameMode().equals(GameMode.CREATIVE)) {
+            Iterator<ItemStack> iterator = event.getBlock().getDrops().iterator();
+            boolean removedAItem = false;
+            while(iterator.hasNext()) {
+                ItemStack item = iterator.next();
+                if (item.getType().equals(Material.AIR)) continue;
+                if (!removedAItem && item.getType().equals(seedVariant)) {
+                    item.setAmount(item.getAmount() - 1);
+                    removedAItem = true;
+                }
+                if (item.getAmount() < 1) continue;
+                world.dropItemNaturally(event.getBlock().getLocation(), item);
             }
-            if (item.getAmount() < 1) continue;
-            world.dropItemNaturally(event.getBlock().getLocation(), item);
         }
 
         if (!player.getGameMode().equals(GameMode.CREATIVE)) removeDurability(heldItem, player);
