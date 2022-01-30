@@ -21,6 +21,8 @@ CropBreak:
   requireAllEnchants: false
   requiredEnchants:
     - "SILK_TOUCH"
+  # When true the used item will lose durability
+  useDurability: true
   # The name of the particle that spawns when a crop is replanted
   particle: "VILLAGER_HAPPY"
   # The amount of particles that spawn when a crop is replanted (use 0 to disable the spawn of particles)
