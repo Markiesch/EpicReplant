@@ -7,14 +7,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
 public class ReplantCommand implements CommandExecutor {
-    private final Plugin plugin = EpicReplant.instance;
+    private final Plugin plugin = EpicReplant.getInstance();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         String helpPage =
             "§c§lEpicReplant §8>> §7version " + plugin.getDescription().getVersion() + " Created with <3 by §cMarkiesch" +
-            "\n\n§8- §c/replant §7- Shows this help page" +
-            "\n§8- §c/replant reload §7- Reloads the config files.";
+            "\n\n§8- §c/epicreplant §7- Shows this help page" +
+            "\n§8- §c/epicreplant reload §7- Reloads the config files.";
 
         if (args.length == 0) {
             sender.sendMessage(helpPage);
@@ -35,6 +35,7 @@ public class ReplantCommand implements CommandExecutor {
                 sender.sendMessage("§cFailed to load config file! Check spelling!" + error.getMessage());
             }
         }
+
         return true;
     }
 }
