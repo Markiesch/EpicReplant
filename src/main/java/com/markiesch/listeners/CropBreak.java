@@ -69,7 +69,7 @@ public class CropBreak implements Listener {
 
         event.setDropItems(false);
         if (!player.getGameMode().equals(GameMode.CREATIVE)) {
-            Iterator<ItemStack> iterator = event.getBlock().getDrops().iterator();
+            Iterator<ItemStack> iterator = event.getBlock().getDrops(heldItem).iterator();
             boolean removedAItem = false;
             while(iterator.hasNext()) {
                 ItemStack item = iterator.next();
