@@ -136,6 +136,8 @@ public class CropBreak implements Listener {
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
 
+        if (item.getType().getMaxDurability() < 1 || meta.isUnbreakable()) return;
+
         Damageable damageableItem = (Damageable) meta;
         if (meta.hasEnchant(Enchantment.DURABILITY)) {
             Random random = new Random();
