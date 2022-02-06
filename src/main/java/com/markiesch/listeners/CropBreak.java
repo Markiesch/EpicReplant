@@ -21,13 +21,18 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 
 public class CropBreak implements Listener {
     private final Plugin plugin = EpicReplant.getInstance();
+
+    private final HashMap<Material, Material> crops = new HashMap<Material, Material>(){{
+        put(Material.WHEAT, Material.WHEAT_SEEDS);
+        put(Material.CARROTS, Material.CARROT);
+        put(Material.POTATOES, Material.POTATO);
+        put(Material.NETHER_WART, Material.NETHER_WART);
+        put(Material.BEETROOTS, Material.BEETROOT_SEEDS);
+    }};
 
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void breakEvent(BlockBreakEvent event) {
@@ -42,29 +47,13 @@ public class CropBreak implements Listener {
         List<String> disabledWorlds = plugin.getConfig().getStringList("CropBreak.disabledWorlds");
         if (disabledWorlds.contains(block.getWorld().getName())) return;
 
-        Material material = block.getType();
-        Material cropBlockType = null;
-        Material seedVariant = null;
+        Material cropBlockType = block.getType();
 
-        if (material.equals(Material.WHEAT)) {
-            cropBlockType = Material.WHEAT;
-            seedVariant = Material.WHEAT_SEEDS;
-        } else if (material.equals(Material.CARROTS)) {
-            cropBlockType = Material.CARROTS;
-            seedVariant = Material.CARROT;
-        } else if (material.equals(Material.POTATOES)) {
-            cropBlockType = Material.POTATOES;
-            seedVariant = Material.POTATO;
-        } else if (material.equals(Material.NETHER_WART)) {
-            cropBlockType = Material.NETHER_WART;
-        } else if (material.equals(Material.BEETROOTS)) {
-            cropBlockType = Material.BEETROOTS;
-            seedVariant = Material.BEETROOT_SEEDS;
+        if (!crops.containsKey(cropBlockType)) {
+            return;
         }
 
-        if (cropBlockType == null) return;
-        if (seedVariant == null) seedVariant = cropBlockType;
-
+        Material seedVariant = crops.get(cropBlockType);
         World world = event.getPlayer().getWorld();
 
         event.setDropItems(false);
@@ -81,21 +70,18 @@ public class CropBreak implements Listener {
                 if (item.getAmount() < 1) continue;
                 world.dropItemNaturally(event.getBlock().getLocation(), item);
             }
+            removeDurability(heldItem, player);
         }
 
-        if (!player.getGameMode().equals(GameMode.CREATIVE)) removeDurability(heldItem, player);
-
         Location location = block.getLocation();
-        Material finalCropBlockType = cropBlockType;
-        Material finalSeedVariant = seedVariant;
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             Location baseBlock = new Location(location.getWorld(), location.getBlockX(), location.getBlockY() - 1, location.getBlockZ());
             // Returns if the block under the crop is not a farmland
             if (baseBlock.getBlock().getType() != Material.FARMLAND && baseBlock.getBlock().getType() != Material.SOUL_SAND) {
-                world.dropItemNaturally(event.getBlock().getLocation(), new ItemStack(finalSeedVariant));
+                world.dropItemNaturally(event.getBlock().getLocation(), new ItemStack(seedVariant));
                 return;
             }
-            location.getBlock().setType(finalCropBlockType);
+            location.getBlock().setType(cropBlockType);
             if (location.getWorld() != null) {
                 try {
                     Particle particle = Particle.valueOf(plugin.getConfig().getString("CropBreak.particle"));
