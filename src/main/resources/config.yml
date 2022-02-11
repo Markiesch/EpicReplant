@@ -37,3 +37,7 @@ CropTrampling:
   disabledWorlds: []
   # Disables/enables the need of leather boots to make the antiCropTrampling work
   requireBoots: true
+  # Mobs in this list are allowed to trample crops. Possible values are found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
+  # Adding "*" to this list would allow all mobs to trample crops.
+  blacklistedMobs:
+    - "*"
