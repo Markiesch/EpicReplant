@@ -3,7 +3,6 @@ package com.markiesch;
 import com.markiesch.commands.ReplantCommand;
 import com.markiesch.listeners.CropBreak;
 import com.markiesch.listeners.CropTrample;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class EpicReplant extends JavaPlugin {
@@ -17,14 +16,11 @@ public class EpicReplant extends JavaPlugin {
         instance = this;
         saveDefaultConfig();
 
-        // Register commands and Listeners
         if (getConfig().getBoolean("CropBreak.enabled")) getServer().getPluginManager().registerEvents(new CropBreak(), this);
         if (getConfig().getBoolean("CropTrampling.enabled")) getServer().getPluginManager().registerEvents(new CropTrample(), this);
 
-        PluginCommand command = getCommand("epicReplant");
-        if (command != null) command.setExecutor(new ReplantCommand());
+        getCommand("epicReplant").setExecutor(new ReplantCommand());
 
-        // Send a console message when the plugin is Enabled
         getServer().getConsoleSender().sendMessage("§aEpic Replant is now enabled");
     }
 

@@ -91,11 +91,9 @@ public class CropBreak implements Listener {
         }, 15L);
     }
 
-    public boolean checkTools(String value) {
+    public boolean checkTools(String tool) {
         List<String> requiredItems = plugin.getConfig().getStringList("CropBreak.requiredItems");
-        if (requiredItems.isEmpty()) return true;
-        for (String element : requiredItems) if (element.equals(value)) return true;
-        return false;
+        return (requiredItems.isEmpty() || requiredItems.contains(tool));
     }
 
     public boolean checkEnchants(ItemStack item) {
@@ -129,9 +127,8 @@ public class CropBreak implements Listener {
 
         damageableItem.setDamage(damageableItem.getDamage() + 1);
         item.setItemMeta((ItemMeta)damageableItem);
-        if (damageableItem.getDamage() >= item.getType().getMaxDurability()) {
-            player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1F, 1F);
-            player.getInventory().remove(item);
-        }
+        if (damageableItem.getDamage() < item.getType().getMaxDurability()) return;
+        player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1F, 1F);
+        player.getInventory().remove(item);
     }
 }
