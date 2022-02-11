@@ -36,6 +36,10 @@ public class CropBreak implements Listener {
 
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void breakEvent(BlockBreakEvent event) {
+        Block block = event.getBlock();
+        Material cropBlockType = block.getType();
+        if (!crops.containsKey(cropBlockType)) return;
+
         Player player = event.getPlayer();
         if (plugin.getConfig().getBoolean("CropBreak.requirePermission") && !player.hasPermission("epicreplant.replant")) return;
 
@@ -43,15 +47,8 @@ public class CropBreak implements Listener {
         if (!checkTools(heldItem.getType().toString())) return;
         if (!checkEnchants(heldItem)) return;
 
-        Block block = event.getBlock();
         List<String> disabledWorlds = plugin.getConfig().getStringList("CropBreak.disabledWorlds");
         if (disabledWorlds.contains(block.getWorld().getName())) return;
-
-        Material cropBlockType = block.getType();
-
-        if (!crops.containsKey(cropBlockType)) {
-            return;
-        }
 
         Material seedVariant = crops.get(cropBlockType);
         World world = event.getPlayer().getWorld();
