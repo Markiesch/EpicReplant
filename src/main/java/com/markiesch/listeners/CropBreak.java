@@ -75,10 +75,17 @@ public class CropBreak implements Listener {
         }
 
         Location location = block.getLocation();
+
+        long delay = plugin.getConfig().getLong("CropBreak.delay");
+
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             Location baseBlock = new Location(location.getWorld(), location.getBlockX(), location.getBlockY() - 1, location.getBlockZ());
             // Returns if the block under the crop is not a farmland
-            if (baseBlock.getBlock().getType() != Material.FARMLAND && baseBlock.getBlock().getType() != Material.SOUL_SAND) {
+            if (
+                baseBlock.getBlock().getType() != Material.FARMLAND &&
+                baseBlock.getBlock().getType() != Material.SOUL_SAND ||
+                block.getType() != Material.AIR
+            ) {
                 world.dropItemNaturally(event.getBlock().getLocation(), new ItemStack(seedVariant));
                 return;
             }
@@ -92,7 +99,7 @@ public class CropBreak implements Listener {
                     plugin.getServer().getConsoleSender().sendMessage("\"" + plugin.getConfig().getString("CropBreak.particle") + "\" is not a valid particle");
                 }
             }
-        }, 15L);
+        }, delay);
     }
 
     public boolean checkTools(String tool) {
