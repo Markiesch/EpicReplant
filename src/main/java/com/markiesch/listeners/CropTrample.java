@@ -15,7 +15,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.List;
 
 public class CropTrample implements Listener {
-    FileConfiguration config = EpicReplant.getInstance().getConfig();
+    private final FileConfiguration config;
+
+    public CropTrample(EpicReplant instance) {
+        config = instance.getConfig();
+    }
 
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerInteractEvent(PlayerInteractEvent event) {

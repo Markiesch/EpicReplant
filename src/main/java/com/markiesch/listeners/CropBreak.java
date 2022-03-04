@@ -24,7 +24,11 @@ import org.bukkit.plugin.Plugin;
 import java.util.*;
 
 public class CropBreak implements Listener {
-    private final Plugin plugin = EpicReplant.getInstance();
+    private final Plugin plugin;
+
+    public CropBreak(EpicReplant instance) {
+        plugin = instance;
+    }
 
     private final HashMap<Material, Material> crops = new HashMap<Material, Material>(){{
         put(Material.WHEAT, Material.WHEAT_SEEDS);
@@ -93,7 +97,7 @@ public class CropBreak implements Listener {
 
     public boolean checkTools(String tool) {
         List<String> requiredItems = plugin.getConfig().getStringList("CropBreak.requiredItems");
-        return (requiredItems.isEmpty() || requiredItems.contains(tool));
+        return (requiredItems.contains("*") || requiredItems.isEmpty() || requiredItems.contains(tool));
     }
 
     public boolean checkEnchants(ItemStack item) {
