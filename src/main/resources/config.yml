@@ -47,6 +47,8 @@ CropBreak:
   particle: "VILLAGER_HAPPY"
   # The amount of particles that spawn when a crop is replanted (use 0 to disable the spawn of particles)
   particleAmount: 10
+  # The delay in ticks it takes to replant the crop
+  delay: 15
 
 CropTrampling:
   # Disables/enables the crop trampling system (a full server restart is needed to apply changes for this option)
