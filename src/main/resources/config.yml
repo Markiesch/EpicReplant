@@ -1,13 +1,33 @@
-CropBreak:
-  # Disables/enables the whole replant system (a full server restart is needed to apply changes)
+# +
+# | Author: Markiesch
+# | Discord: https://discord.com/invite/jwzrjCkEFG
+# | Resource page: https://www.spigotmc.org/resources/epic-replant.95096/
+# | Documentation: https://mark-schuurmans.gitbook.io/epic-replant/
+# |
+# | config generated at version ${project.version}
+# +
+
+HelpPage:
+  # Disables/enables the help page which is shown when typing /epicreplant
   enabled: true
-  # When true players need the permission epicreplant.replant
+  # The content of the help page, use [version] to display the plugin version
+  content:
+    - "&c&lEpicReplant &8>> &7version [version] Created with <3 by &cMarkiesch"
+    - ""
+    - "&8- &c/epicreplant &7- Shows this help page"
+    - "&8- &c/epicreplant reload &7- Reloads the config files."
+
+CropBreak:
+  # Disables/enables the whole replant system (a full server restart is needed to apply changes for this option)
+  enabled: true
+  # When 'true' players need the permission epicreplant.replant to replant crops
   requirePermission: true
   # Use '[]' or '-' to allow replanting in any world
   disabledWorlds:
     - "disabled world"
     - "another disabled world"
-  # Use '[]' or '-' to allow any item
+  # Players are allowed to harvest crops with the items specified in this. Possible values are found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+  # Adding "*", or by using '[]' would allow all items to be used
   requiredItems:
     - "WOODEN_HOE"
     - "STONE_HOE"
@@ -29,7 +49,7 @@ CropBreak:
   particleAmount: 10
 
 CropTrampling:
-  # Disables/enables the crop trampling system (a full server restart is needed to apply changes)
+  # Disables/enables the crop trampling system (a full server restart is needed to apply changes for this option)
   enabled: true
   # When true players need the permission epicreplant.trampling
   requirePermission: true
