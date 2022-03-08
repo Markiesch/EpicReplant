@@ -6,7 +6,7 @@
 
     <groupId>com.markiesch</groupId>
     <artifactId>EpicReplant</artifactId>
-    <version>1.7.0</version>
+    <version>1.7.1</version>
     <packaging>jar</packaging>
 
     <name>EpicReplant</name>
@@ -50,7 +50,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.1</version>
                 <configuration>
-                    <outputDirectory>E:\Projecten\Java\Server-1.17.1\plugins</outputDirectory>
+                    <outputDirectory>E:\Projecten\Java\Server\plugins</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>

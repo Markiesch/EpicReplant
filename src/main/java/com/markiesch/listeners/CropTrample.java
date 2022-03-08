@@ -23,6 +23,7 @@ public class CropTrample implements Listener {
 
     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerInteractEvent(PlayerInteractEvent event) {
+        if (event.getClickedBlock() == null || !event.getClickedBlock().getType().equals(Material.FARMLAND)) return;
         if (!event.getAction().equals(Action.PHYSICAL) || isDisabledWorld(event.getPlayer().getLocation().getWorld())) return;
 
         Player player = event.getPlayer();
