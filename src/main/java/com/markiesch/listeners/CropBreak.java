@@ -1,14 +1,8 @@
 package com.markiesch.listeners;
 
 import com.markiesch.EpicReplant;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import es.yellowzaki.offlinegrowth.api.OfflineGrowthAPI;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -95,6 +89,7 @@ public class CropBreak implements Listener {
                     Particle particle = Particle.valueOf(plugin.getConfig().getString("CropBreak.particle"));
                     int amount = plugin.getConfig().getInt("CropBreak.particleAmount");
                     if (amount > 0) location.getWorld().spawnParticle(particle, location.add(0.5, 0.25, 0.5), amount, 0.25, 0.10, 0.25);
+                    handleOfflineGrowthSpawn(location);
                 } catch (IllegalArgumentException error) {
                     plugin.getServer().getConsoleSender().sendMessage("\"" + plugin.getConfig().getString("CropBreak.particle") + "\" is not a valid particle");
                 }
@@ -141,5 +136,11 @@ public class CropBreak implements Listener {
         if (damageableItem.getDamage() < item.getType().getMaxDurability()) return;
         player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1F, 1F);
         player.getInventory().remove(item);
+    }
+
+    public void handleOfflineGrowthSpawn(Location location) {
+        if (Bukkit.getPluginManager().getPlugin("OfflineGrowth") != null || Bukkit.getPluginManager().getPlugin("OfflineGrowthPro") != null) {
+            OfflineGrowthAPI.addPlant(location);
+        }
     }
 }
