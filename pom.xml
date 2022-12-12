@@ -6,7 +6,7 @@
 
     <groupId>com.markiesch</groupId>
     <artifactId>EpicReplant</artifactId>
-    <version>1.7.1</version>
+    <version>1.8.0</version>
     <packaging>jar</packaging>
 
     <name>EpicReplant</name>
@@ -79,6 +79,13 @@
             <artifactId>spigot-api</artifactId>
             <version>1.13.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>es.yellowzaki.offlinegrowth</groupId>
+            <artifactId>OfflineGrowth</artifactId>
+            <scope>system</scope>
+            <version>1.6.9</version>
+            <systemPath>E:/Projecten/Java/libs/OfflineGrowth-1.6.9.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
